@@ -1,0 +1,74 @@
+﻿@page "/superhero"
+
+<h3>SuperHero</h3>
+<button @onclick="LoadHeroes">Load Heroes</button>
+<select class="form-control d-flex" @onchange=HeroSelected>
+    @foreach (var hero in _heroes)
+    {
+    <option value=@hero.Id>@hero.Name</option>
+    }
+</select>
+<div>
+    Selected super hero is: @_selectedHero?.Name
+</div>
+
+
+@code {
+    private List<BlazorTechfestServer.Data.SuperHero> _heroes = new List<BlazorTechfestServer.Data.SuperHero>();
+    private BlazorTechfestServer.Data.SuperHero _selectedHero;
+
+    private void LoadHeroes(MouseEventArgs e)
+    {
+        _heroes.Clear();
+
+        var batman = new BlazorTechfestServer.Data.SuperHero() { Name = "Batman", Id = 1 };
+        var superman = new BlazorTechfestServer.Data.SuperHero() { Name = "Superman", Id = 2 };
+        var spiderman = new BlazorTechfestServer.Data.SuperHero() { Name = "Spiderman", Id = 3 };
+        var hulk = new BlazorTechfestServer.Data.SuperHero() { Name = "Hulk", Id = 4 };
+        var wonderwoman = new BlazorTechfestServer.Data.SuperHero() { Name = "Wonder Woman", Id = 5 };
+        var aquaman = new BlazorTechfestServer.Data.SuperHero() { Name = "Aquaman", Id = 6 };
+        var wolverine = new BlazorTechfestServer.Data.SuperHero() { Name = "Wolverine", Id = 7 };
+
+        _heroes.Add(batman);
+        _heroes.Add(superman);
+        _heroes.Add(spiderman);
+        _heroes.Add(hulk);
+        _heroes.Add(wonderwoman);
+        _heroes.Add(aquaman);
+        _heroes.Add(wolverine);
+    }
+
+    void HeroSelected(ChangeEventArgs e)
+    {
+        _selectedHero = _heroes.FirstOrDefault(h => h.Id == Convert.ToInt32(e.Value));
+        _selectedHero.Name += PrimeNumber(50000);
+
+    }
+
+    public long PrimeNumber(int n)
+    {
+        int count = 0;
+        long a = 2;
+        while (count < n)
+        {
+            long b = 2;
+            int prime = 1;
+            while (b * b <= a)
+            {
+                if (a % b == 0)
+                {
+                    prime = 0; break;
+                }
+                b++;
+            }
+            if (prime > 0)
+            {
+                count++;
+            }
+            a++;
+        }
+        return (--a);
+
+    }
+
+}
